@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">计算机实验室管理系统</string>
+
+
+    <string name="login_text1">欢迎进入计算机实验室管理系统</string>
+    <string name="login_text2">Computer Laboratory Management System</string>
+    <string name="login_editText_user">请输入用户名</string>
+    <string name="login_editText_password">请输入密码</string>
+    <string name="login_button">登 录</string>
+    <string name="login_checkbox1">快速登录</string>
+    <string name="login_checkbox2">记住密码</string>
+    <string name="login_textview_ip">本机IP地址</string>
+    <string name="login_textview_register">学生用户注册</string>
+    <string name="login_textview_about">关于</string>
+
+
+</resources>

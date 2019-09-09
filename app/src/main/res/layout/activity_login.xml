@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.zh.clms.activity.LoginActivity">
+
+
+    <com.example.zh.clms.view.AppCompatImageView
+        android:id="@+id/login_image_account"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_account"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Spinner
+        android:id="@+id/login_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/login_image_account"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:spinnerMode="dropdown" />
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/login_linear1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/login_spinner"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@mipmap/ic_user" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/login_editText_user"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/login_editText_user"
+            android:inputType="text"
+            android:textCursorDrawable="@drawable/edittext_bottom_line"
+            android:textSize="25dp" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/login_linear2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/login_linear1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@mipmap/ic_password" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/login_editText_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/login_editText_password"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@drawable/edittext_bottom_line"
+            android:textSize="25dp" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/login_linear3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/login_linear2"
+        android:layout_margin="20dp">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/login_checkbox2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/login_checkbox2" />
+
+        <TextView
+            android:id="@+id/login_textview_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/login_textview_ip"
+            android:textColor="@color/black" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_linear3"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/login_button_select"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="@string/login_button"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="25dp"
+        android:textSize="20dp">
+
+
+        <TextView
+            android:id="@+id/login_textview_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="用户注册"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/login_textview_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/login_textview_about"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
+

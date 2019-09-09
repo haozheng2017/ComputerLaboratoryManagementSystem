@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="User_identity">
+        <item>请选择登录者身份</item>
+        <item>管理员</item>
+        <item>教师</item>
+        <item>学生</item>
+    </string-array>
+    
+</resources>
