@@ -19,9 +19,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // 当数据库创建的时候，是第一次被执行，完成对数据库的表的创建
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table stu(id integer primary key autoincrement,userName varchar" + "" +
-                "(64),password varchar(64))";
+        String sql = "create table stu(id integer primary key autoincrement,userName varchar" +
+                "" + "(64),password varchar(64))";
         db.execSQL(sql);
+
+        String sql_tea = "create table tea(id integer primary key autoincrement,userName varchar"
+                + "" + "(64),password varchar(64))";
+        db.execSQL(sql_tea);
+
+        String sql_admin = "create table admin(id integer primary key autoincrement,userName " +
+                "varchar" + "" + "(64),password varchar(64))";
+        db.execSQL(sql_admin);
     }
 
     @Override

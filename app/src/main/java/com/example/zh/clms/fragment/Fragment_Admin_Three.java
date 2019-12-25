@@ -72,7 +72,9 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.fragmentAdmin3_button_insert:
                 if ("".equals(str1)) {
-                    Toast.makeText(getContext(), "输入不可为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "用户名的输入不可为空", Toast.LENGTH_SHORT).show();
+                } else if ("".equals(str2)) {
+                    Toast.makeText(getContext(), "密码的输入不可为空", Toast.LENGTH_SHORT).show();
                 } else {
                     Student student = new Student();
                     student.setUserName(str1);
@@ -86,6 +88,8 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                         Object[] params = {student.getUserName(), student.getPassword()};
                         boolean flag = new StudentDao(getContext()).addStudent(student);
                         if (flag) {
+                            editText1.setText("");
+                            editText2.setText("");
                             Toast.makeText(getContext(), "数据添加成功", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "数据添加失败", Toast.LENGTH_SHORT).show();
@@ -97,37 +101,56 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
             case R.id.fragmentAdmin3_button_update:
                 if ("".equals(str1)) {
                     Toast.makeText(getContext(), "输入不可为空", Toast.LENGTH_SHORT).show();
+                } else if ("".equals(str2)) {
+                    Toast.makeText(getContext(), "密码的输入不可为空", Toast.LENGTH_SHORT).show();
                 } else {
                     Student student = new Student();
                     student.setUserName(str1);
-                    new StudentDao(getContext()).deleteStudent(student);
-
-                    student.setUserName(str1);
                     student.setPassword(str2);
-                    Object[] params = {student.getUserName(), student.getPassword()};
-                    boolean flag1 = new StudentDao(getContext()).addStudent(student);
-                    if (flag1) {
-                        Toast.makeText(getContext(), "数据修改成功", Toast.LENGTH_SHORT).show();
+                    StudentService service = new StudentDao(getContext());
+                    Map<String, String> map = service.viewStudent(student);
+                    if (str1.trim().equals(map.get("userName"))) {
+                        Object[] params = {student.getPassword(), student.getUserName()};
+                        boolean flag1 = new StudentDao(getContext()).updateStudent(student, params);
+                        if (flag1) {
+                            editText1.setText("");
+                            editText2.setText("");
+                            Toast.makeText(getContext(), "数据修改成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "数据修改失败", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(getContext(), "数据修改失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "该用户不存在", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 break;
             case R.id.fragmentAdmin3_button_delete:
+
                 if ("".equals(str1)) {
                     Toast.makeText(getContext(), "输入不可为空", Toast.LENGTH_SHORT).show();
                 } else {
                     Student student = new Student();
                     student.setUserName(str1);
-                    boolean flag = new StudentDao(getContext()).deleteStudent(student);
-                    if (flag) {
-                        Toast.makeText(getContext(), "数据删除成功", Toast.LENGTH_SHORT).show();
+                    StudentService service = new StudentDao(getContext());
+                    Map<String, String> map = service.viewStudent(student);
+                    if (str1.trim().equals(map.get("userName"))) {
+                        boolean flag = new StudentDao(getContext()).deleteStudent(student);
+                        if (flag) {
+                            editText1.setText("");
+                            editText2.setText("");
+                            Toast.makeText(getContext(), "数据删除成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "数据删除失败", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(getContext(), "数据删除失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "该用户不存在", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 break;
             case R.id.fragmentAdmin3_button_select:
+
                 if ("".equals(str1)) {
                     Toast.makeText(getContext(), "输入不可为空", Toast.LENGTH_SHORT).show();
                 } else {
@@ -137,21 +160,27 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                     student.setUserName(str1);
                     StudentService service = new StudentDao(getContext());
                     Map<String, String> map = service.viewStudent(student);
-
-                    list1.add(map.get("userName"));
-                    list2.add(map.get("password"));
-                    adapter = new ListViewAdapter(getContext(), list1, list2);
-                    listView.setAdapter(adapter);
-                    map.clear();
-                    Toast.makeText(getContext(), "单个数据查找成功", Toast.LENGTH_SHORT).show();
+                    if (str1.trim().equals(map.get("userName"))) {
+                        list1.add(map.get("userName"));
+                        list2.add(map.get("password"));
+                        adapter = new ListViewAdapter(getContext(), list1, list2);
+                        listView.setAdapter(adapter);
+                        map.clear();
+                        editText1.setText("");
+                        editText2.setText("");
+                        Toast.makeText(getContext(), "单个数据查找成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "该用户不存在", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.fragmentAdmin3_button_select_All:
+                editText1.setText("");
+                editText2.setText("");
                 list1.clear();
                 list2.clear();
                 StudentService service = new StudentDao(getContext());
                 List<Map<String, String>> list = service.listStudentMaps();
-
                 String key = null;//去重键
                 for (Map<String, String> m : list) {
                     for (Map.Entry<String, String> vo : m.entrySet()) {
@@ -164,6 +193,9 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                 }
                 adapter = new ListViewAdapter(getContext(), list1, list2);
                 listView.setAdapter(adapter);
+                editText1.setText("");
+                editText2.setText("");
+                Toast.makeText(getContext(), "所有用户查找成功！", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -27,10 +28,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zh.clms.R;
+import com.example.zh.clms.database.Admin;
+import com.example.zh.clms.database.AdminDao;
+import com.example.zh.clms.database.AdminService;
 import com.example.zh.clms.database.DatabaseOpenHelper;
 import com.example.zh.clms.database.Student;
 import com.example.zh.clms.database.StudentDao;
 import com.example.zh.clms.database.StudentService;
+import com.example.zh.clms.database.Teacher;
+import com.example.zh.clms.database.TeacherDao;
+import com.example.zh.clms.database.TeacherService;
 import com.example.zh.clms.utils.sp;
 
 import java.io.ByteArrayOutputStream;
@@ -77,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         createdb();
+        is_First_Run();
         init();
         setSpinner_OnClick();
         setCheckBox_OnClick();
@@ -116,9 +124,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         string_password = editText_password.getText().toString();
         adressIP = getIP();
 
-        setMap_admin("", "", 0);
-        setMap_Teacher("", "", 0);
-
         switch (v.getId()) {
 
             case R.id.login_image_account:
@@ -130,7 +135,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity
                             .this, "请检查网络，没有网络连接", Toast.LENGTH_SHORT).show();
                 } else if (POSTION == 1) {
-                    if ((string_password).equals(map_admin.get(string_user))) {
+                    Admin admin = new Admin();
+                    admin.setUserName(string_user);
+                    AdminService service = new AdminDao(this);
+                    Map<String, String> map = new HashMap<String, String>();
+                    map = service.viewAdmin(admin);
+                    if ((string_password).equals(map.get("password"))) {
                         Intent intent = new Intent(LoginActivity.this, MainActivity_Admin.class);
                         startActivity(intent);
                         finish();
@@ -142,7 +152,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 .this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
                     }
                 } else if (POSTION == 2) {
-                    if ((string_password).equals(map_Teacher.get(string_user))) {
+                    Teacher teacher = new Teacher();
+                    teacher.setUserName(string_user);
+                    TeacherService service = new TeacherDao(this);
+                    Map<String, String> map = new HashMap<String, String>();
+                    map = service.viewTeacher(teacher);
+                    if ((string_password).equals(map.get("password"))) {
                         Intent intent = new Intent(LoginActivity.this, MainActivity_Teacher.class);
                         startActivity(intent);
                         finish();
@@ -191,41 +206,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public static void setMap_admin(String str1, String str2, int postion) {
-        LoginActivity.map_admin = new HashMap<>();
-        map_admin.put("zh", "123");
-        map_admin.put("admin", "123");
-        for (int i = 1; i <= 10; i++) {
-            map_admin.put("admin" + Integer.toString(i), "123");
-        }
-        if (postion == 1) {
-            map_admin.put(str1, str2);
-        }
-        if (postion == 2) {
-            map_admin.put(str1, str2);
-        }
-        if (postion == 3) {
-            map_admin.remove(str1);
-        }
-    }
-
-    public static void setMap_Teacher(String str1, String str2, int postion) {
-        LoginActivity.map_Teacher = new HashMap<>();
-        map_Teacher.put("zh", "123");
-        map_Teacher.put("tea", "123");
-        for (int i = 1; i <= 10; i++) {
-            map_Teacher.put("tea" + Integer.toString(i), "123");
-        }
-        if (postion == 1) {
-            map_Teacher.put(str1, str2);
-        }
-        if (postion == 2) {
-            map_Teacher.put(str1, str2);
-        }
-        if (postion == 3) {
-            map_Teacher.remove(str1);
-        }
-    }
 
     //点击头像底部出现dialog
     private void showDialog() {
@@ -542,5 +522,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void createdb() {
         DatabaseOpenHelper dbOpenHelper = new DatabaseOpenHelper(getBaseContext());
         dbOpenHelper.getWritableDatabase();
+
     }
+
+    //测试超级账户（学生）
+    private void product_account_student() {
+
+        Student student = new Student();
+        student.setUserName("zh");
+        student.setPassword("123");
+        StudentService service = new StudentDao(getApplicationContext());
+        Map<String, String> map = service.viewStudent(student);
+        Object[] params = {student.getUserName(), student.getPassword()};
+        new StudentDao(getApplicationContext()).addStudent(student);
+    }
+
+    //测试超级账户（管理员）
+    private void product_account_admin() {
+        Admin admin = new Admin();
+        admin.setUserName("zh");
+        admin.setPassword("123");
+        AdminService service = new AdminDao(getApplicationContext());
+        Map<String, String> map = service.viewAdmin(admin);
+        Object[] params = {admin.getUserName(), admin.getPassword()};
+        new AdminDao(getApplicationContext()).addAdmin(admin);
+    }
+
+    //测试超级账户（管理员）
+    private void product_account_teacher() {
+        Teacher teacher = new Teacher();
+        teacher.setUserName("zh");
+        teacher.setPassword("123");
+        TeacherService service = new TeacherDao(getApplicationContext());
+        Map<String, String> map = service.viewTeacher(teacher);
+        Object[] params = {teacher.getUserName(), teacher.getPassword()};
+        new TeacherDao(getApplicationContext()).addTeacher(teacher);
+    }
+
+    private void is_First_Run() {
+        SharedPreferences setting = getSharedPreferences("isFirstRun", 0);
+        Boolean user_first = setting.getBoolean("FIRST", true);
+        if (user_first) {//第一次
+            setting.edit().putBoolean("FIRST", false).commit();
+            product_account_admin();
+            product_account_teacher();
+            product_account_student();
+            //Toast.makeText(LoginActivity.this, "第一次", Toast.LENGTH_LONG).show();
+        } else {
+            // Toast.makeText(LoginActivity.this, "不是第一次", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

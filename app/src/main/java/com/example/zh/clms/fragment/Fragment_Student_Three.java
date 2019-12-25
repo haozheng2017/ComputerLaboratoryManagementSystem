@@ -156,12 +156,9 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
 
                     Student student = new Student();
                     student.setUserName(t);
-                    new StudentDao(getContext()).deleteStudent(student);
-
-                    student.setUserName(t);
                     student.setPassword(str_ed_second);
-                    Object[] params = {student.getUserName(), student.getPassword()};
-                    boolean flag1 = new StudentDao(getContext()).addStudent(student);
+                    Object[] params = {student.getPassword(), student.getUserName()};
+                    boolean flag1 = new StudentDao(getContext()).updateStudent(student, params);
                     if (flag1) {
                         Toast.makeText(getContext(), "数据修改成功", Toast.LENGTH_SHORT).show();
                     } else {

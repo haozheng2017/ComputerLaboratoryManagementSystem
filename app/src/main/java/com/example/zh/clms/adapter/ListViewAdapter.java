@@ -49,7 +49,7 @@ public class ListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         viewHolder holder;
         if (null == convertView) {
-            convertView = inflater.inflate(R.layout.fragment_admin_1_listview_item, null);
+            convertView = inflater.inflate(R.layout.fragment_admin_listview_item, null);
             holder = new viewHolder();
             holder.textView1 = convertView.findViewById(R.id.fragmentAdmin1_list_item_textView1);
             holder.textView2 = convertView.findViewById(R.id.fragmentAdmin1_list_item_textView2);
