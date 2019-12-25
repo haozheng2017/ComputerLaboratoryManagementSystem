@@ -11,11 +11,11 @@
         android:fromYScale="1"
         android:pivotX="50%p"
         android:pivotY="50%p"
-        android:toXScale="0"
-        android:toYScale="0" />
+        android:toXScale="0.3"
+        android:toYScale="0.3" />
     <!--上下出-->
-    <translate
-        android:fromYDelta="0"
-        android:toYDelta="100%p" />
+    <!--<translate-->
+        <!--android:fromYDelta="0"-->
+        <!--android:toYDelta="100%p" />-->
 
 </set>

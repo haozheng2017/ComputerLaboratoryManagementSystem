@@ -47,7 +47,7 @@ public class MainActivity_Student extends AppCompatActivity implements View.OnCl
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(0);
 
-        textView_lab1.setTextColor(getResources().getColor(R.color.Yellow));
+        textView_lab1.setTextColor(getResources().getColor(R.color.black));
         viewpaerOnclick();
 
     }
@@ -117,7 +117,7 @@ public class MainActivity_Student extends AppCompatActivity implements View.OnCl
                 textView_lab1.setBackgroundColor(getResources().getColor(R.color.DeepSkyBlue));
                 textView_lab2.setBackgroundColor(getResources().getColor(R.color.Wathet));
                 textView_lab3.setBackgroundColor(getResources().getColor(R.color.Wathet));
-                textView_lab1.setTextColor(getResources().getColor(R.color.Yellow));
+                textView_lab1.setTextColor(getResources().getColor(R.color.black));
                 textView_lab2.setTextColor(getResources().getColor(R.color.white));
                 textView_lab3.setTextColor(getResources().getColor(R.color.white));
                 break;
@@ -126,7 +126,7 @@ public class MainActivity_Student extends AppCompatActivity implements View.OnCl
                 textView_lab1.setBackgroundColor(getResources().getColor(R.color.Wathet));
                 textView_lab3.setBackgroundColor(getResources().getColor(R.color.Wathet));
                 textView_lab1.setTextColor(getResources().getColor(R.color.white));
-                textView_lab2.setTextColor(getResources().getColor(R.color.Yellow));
+                textView_lab2.setTextColor(getResources().getColor(R.color.black));
                 textView_lab3.setTextColor(getResources().getColor(R.color.white));
                 break;
             case 2:
@@ -135,7 +135,7 @@ public class MainActivity_Student extends AppCompatActivity implements View.OnCl
                 textView_lab2.setBackgroundColor(getResources().getColor(R.color.Wathet));
                 textView_lab1.setTextColor(getResources().getColor(R.color.white));
                 textView_lab2.setTextColor(getResources().getColor(R.color.white));
-                textView_lab3.setTextColor(getResources().getColor(R.color.Yellow));
+                textView_lab3.setTextColor(getResources().getColor(R.color.black));
                 break;
         }
     }

@@ -1,12 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="79dp"
-        android:gravity="center"
-        android:text="教师页面" />
+        android:layout_height="50dp"
+        android:background="@color/Cyan">
+
+        <TextView
+            android:id="@+id/activity_main_teacher_textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="首 页"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_main_teacher_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="1dp">
+
+        <TextView
+            android:id="@+id/activity_main_teacher_textView_lab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/Cyan"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="首 页"
+            android:textColor="@drawable/main_teacher_tab_text_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_main_teacher_textView_lab2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0.5dp"
+            android:layout_marginRight="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/DeepSkyBlue"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="功 能"
+            android:textColor="@drawable/main_teacher_tab_text_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_main_teacher_textView_lab3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/DeepSkyBlue"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="我 的"
+            android:textColor="@drawable/main_teacher_tab_text_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -32,6 +31,7 @@ import com.example.zh.clms.database.DatabaseOpenHelper;
 import com.example.zh.clms.database.Student;
 import com.example.zh.clms.database.StudentDao;
 import com.example.zh.clms.database.StudentService;
+import com.example.zh.clms.utils.sp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -64,10 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private byte[] mContent;
 
     private ArrayAdapter<String> arrayAdapter;
-
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
-
 
     private static final int TUKU = 1;
     private static final int PAIZHAO = 2;
@@ -108,10 +104,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textView_register.setOnClickListener(this);
         textView_about.setOnClickListener(this);
 
-        getSharePfs();
-        editText_user.setText(preferences.getString("user", ""));
-        editText_password.setText(preferences.getString("password", ""));
-
+        sp.getData(this);
+        editText_user.setText(sp.sharedPreferences.getString("user", ""));
+        editText_password.setText(sp.sharedPreferences.getString("password", ""));
     }
 
     //ImageView、Button、TextView_Ip、TextView_register监听事件
@@ -140,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                         finish();
                         if (checkBox_remember.isChecked() == true) {
-                            setSharePfs(string_user, string_password);
+                            sp.saveData(this, string_user, string_password);
                         }
                     } else {
                         Toast.makeText(LoginActivity
@@ -152,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                         finish();
                         if (checkBox_remember.isChecked() == true) {
-                            setSharePfs(string_user, string_password);
+                            sp.saveData(this, string_user, string_password);
                         }
                     } else {
                         Toast.makeText(LoginActivity
@@ -169,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                         finish();
                         if (checkBox_remember.isChecked() == true) {
-                            setSharePfs(string_user, string_password);
+                            sp.saveData(this, string_user, string_password);
                         }
                     } else {
                         Toast.makeText(LoginActivity
@@ -198,6 +193,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public static void setMap_admin(String str1, String str2, int postion) {
         LoginActivity.map_admin = new HashMap<>();
+        map_admin.put("zh", "123");
         map_admin.put("admin", "123");
         for (int i = 1; i <= 10; i++) {
             map_admin.put("admin" + Integer.toString(i), "123");
@@ -215,6 +211,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public static void setMap_Teacher(String str1, String str2, int postion) {
         LoginActivity.map_Teacher = new HashMap<>();
+        map_Teacher.put("zh", "123");
         map_Teacher.put("tea", "123");
         for (int i = 1; i <= 10; i++) {
             map_Teacher.put("tea" + Integer.toString(i), "123");
@@ -233,7 +230,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //点击头像底部出现dialog
     private void showDialog() {
 
-        View view = getLayoutInflater().inflate(R.layout.login_activity_imageview_dialog, null);
+        View view = getLayoutInflater().inflate(R.layout.activity_login_imageview_dialog, null);
         view.findViewById(R.id.image_TUKU).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -399,8 +396,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true) {
-                    getSharePfs();
-                    editText_password.setText(preferences.getString("password", ""));
+                    sp.getData(LoginActivity.this);
+                    editText_password.setText(sp.sharedPreferences.getString("password", ""));
                 } else {
                     editText_password.setText("");
                 }
@@ -441,7 +438,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         window.setAttributes(layoutParams);
     }
 
-    //显示关于半透明弹窗
+    //显示 关于 半透明弹窗
     private void show_About_AlertDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -490,7 +487,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         final View view = View.inflate(LoginActivity.this, R.layout
-                .login_activity_textview_register_alertdialog, null);
+                .activity_login_textview_register_alertdialog, null);
 
         final ImageView register_imageview_close = view.findViewById(R.id.register_imageview_Close);
         final EditText register_edittext_user = view.findViewById(R.id.register_editText_user);
@@ -545,19 +542,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void createdb() {
         DatabaseOpenHelper dbOpenHelper = new DatabaseOpenHelper(getBaseContext());
         dbOpenHelper.getWritableDatabase();
-    }
-
-
-    private void getSharePfs() {
-        preferences = this.getSharedPreferences("preferences_name", MODE_PRIVATE);
-
-    }
-
-    private void setSharePfs(String user, String password) {
-        preferences = this.getSharedPreferences("preferences_name", MODE_PRIVATE);
-        editor = preferences.edit();
-        editor.putString("user", user);
-        editor.putString("password", password);
-        editor.apply();
     }
 }

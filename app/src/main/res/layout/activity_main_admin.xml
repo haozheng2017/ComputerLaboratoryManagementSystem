@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="管理员页面"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="17sp" />
 
@@ -30,6 +31,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/mainAdmin_viewpager"
+        android:background="@color/Gainsboro"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -51,6 +53,7 @@
             android:layout_marginRight="0.5dp"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
             android:text="管理员"
             android:textColor="@color/light_green"
             android:textSize="15dp" />
@@ -61,6 +64,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="0.5dp"
             android:layout_marginRight="0.5dp"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:text="教师"
@@ -71,6 +75,7 @@
             android:id="@+id/mainAdmin_TextView_lab3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:textStyle="bold"
             android:layout_marginLeft="0.5dp"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"

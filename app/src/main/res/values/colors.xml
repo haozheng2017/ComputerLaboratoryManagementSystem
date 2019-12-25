@@ -4,26 +4,35 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <!--浅绿色-->
-    <color name="light_green">#66CDAA</color>
+
     <!--橙红色-->
     <color name="OrangeRed">#FF4500</color>
     <!--珊瑚-->
     <color name="Coral">#FF7F50</color>
     <!--纯黄-->
     <color name="Yellow">#FFFF00</color>
+    <!--浅绿色-->
+    <color name="light_green">#66CDAA</color>
+    <!--深紫罗兰的蓝色-->
+    <color name="BlueViolet">#8A2BE2</color>
+    <!--青色-->
+    <color name="Cyan">#00FFFF</color>
     <!--深天蓝-->
     <color name="DeepSkyBlue">#00BFFF</color>
     <!-- 浅蓝色-->
     <color name="Wathet">#6072cc</color>
-    <!--灰色-->
-    <color name="Gray">#808080</color>
-    <!--亮灰色-->
-    <color name="Gainsboro">#DCDCDC</color>
+
+
     <!--白烟色-->
     <color name="WhiteSmoke">#F5F5F5</color>
     <!-- 白色-->
     <color name="white">#ffffff</color>
+    <!--亮灰色-->
+    <color name="Gainsboro">#DCDCDC</color>
+    <!--灰色-->
+    <color name="Gray">#808080</color>
+    <!--暗淡的灰色-->
+    <color name="DimGray">#696969</color>
     <!-- 黑色-->
     <color name="black">#000000</color>
 </resources>

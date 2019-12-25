@@ -6,5 +6,12 @@
         <item>教师</item>
         <item>学生</item>
     </string-array>
-    
+    <string-array name="room_Number">
+        <item>请选择实验室门牌号</item>
+        <item>D501</item>
+        <item>D502</item>
+        <item>D503</item>
+        <item>D504</item>
+        <item>D505</item>
+    </string-array>
 </resources>

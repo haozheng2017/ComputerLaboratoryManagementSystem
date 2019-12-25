@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/Wathet">
+        android:background="@color/DeepSkyBlue">
 
         <TextView
             android:id="@+id/mainStu_TextView_title"
@@ -16,7 +16,8 @@
             android:layout_centerInParent="true"
             android:text="首页"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager
@@ -44,8 +45,9 @@
             android:background="@color/DeepSkyBlue"
             android:gravity="center_vertical|center_horizontal"
             android:text="首页"
-            android:textColor="@drawable/main_tab_text_color"
-            android:textSize="15dp" />
+            android:textColor="@drawable/main_student_tab_text_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/mainStu_TextView_lab2"
@@ -57,8 +59,9 @@
             android:background="@color/Wathet"
             android:gravity="center_vertical|center_horizontal"
             android:text="功能"
-            android:textColor="@drawable/main_tab_text_color"
-            android:textSize="15dp" />
+            android:textColor="@drawable/main_student_tab_text_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/mainStu_TextView_lab3"
@@ -69,8 +72,9 @@
             android:background="@color/Wathet"
             android:gravity="center_vertical|center_horizontal"
             android:text="我的"
-            android:textColor="@drawable/main_tab_text_color"
-            android:textSize="15dp" />
+            android:textColor="@drawable/main_student_tab_text_color"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

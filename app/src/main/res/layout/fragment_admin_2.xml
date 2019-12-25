@@ -21,7 +21,8 @@
             android:padding="2dp"
             android:text="所有教师账户"
             android:textColor="@color/black"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +38,8 @@
                 android:padding="2dp"
                 android:text="用户名"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
@@ -48,7 +50,8 @@
                 android:padding="2dp"
                 android:text="密码"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -83,7 +86,8 @@
                 android:gravity="center"
                 android:text="用户名："
                 android:textColor="@color/black"
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/fragmentAdmin2_editText1"
@@ -99,7 +103,8 @@
                 android:gravity="center"
                 android:text="密码："
                 android:textColor="@color/black"
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/fragmentAdmin2_editText2"
