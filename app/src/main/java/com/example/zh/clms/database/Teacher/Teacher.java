@@ -1,21 +1,20 @@
-package com.example.zh.clms.database;
+package com.example.zh.clms.database.Teacher;
 
-public class Student {
+public class Teacher {
     private String userName;
     private String password;
 
-    public Student() {
+    public Teacher() {
 
     }
 
-    public Student(String userName, String password) {
+    public Teacher(String userName, String password) {
         super();
         this.userName = userName;
         this.password = password;
     }
 
     public String getUserName() {
-
         return userName;
     }
 

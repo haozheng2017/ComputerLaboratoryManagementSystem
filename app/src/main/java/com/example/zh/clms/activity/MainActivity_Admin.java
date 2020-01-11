@@ -8,22 +8,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.zh.clms.R;
 import com.example.zh.clms.adapter.ViewPagerAdapter;
-import com.example.zh.clms.fragment.Fragment_Admin_One;
-import com.example.zh.clms.fragment.Fragment_Admin_Three;
-import com.example.zh.clms.fragment.Fragment_Admin_Two;
+import com.example.zh.clms.fragment.Fragment_Admin.Fragment_Admin_One;
+import com.example.zh.clms.fragment.Fragment_Admin.Fragment_Admin_Three;
+import com.example.zh.clms.fragment.Fragment_Admin.Fragment_Admin_Two;
 
 import java.util.ArrayList;
 import java.util.List;

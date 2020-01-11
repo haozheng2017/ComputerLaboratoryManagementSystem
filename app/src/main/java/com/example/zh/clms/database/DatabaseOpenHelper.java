@@ -30,6 +30,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         String sql_admin = "create table admin(id integer primary key autoincrement,userName " +
                 "varchar" + "" + "(64),password varchar(64))";
         db.execSQL(sql_admin);
+
+//        String sql_stu_Lab_Apply = "create table stu_lab_apply(id integer primary key " +
+//                "autoincrement," + "name " + "varchar" + "" + "(64),phone varchar(64),roomNumber " +
+//                "varchar(64)," + "startTime " + "varchar" + "(64)," + "endTime " +
+//                "varchar" + "" + "(64),Tag varchar(64))";
+//        db.execSQL(sql_stu_Lab_Apply);
     }
 
     @Override

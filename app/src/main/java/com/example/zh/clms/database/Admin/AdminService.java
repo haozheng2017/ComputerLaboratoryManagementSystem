@@ -1,4 +1,6 @@
-package com.example.zh.clms.database;
+package com.example.zh.clms.database.Admin;
+
+import com.example.zh.clms.database.Admin.Admin;
 
 import java.util.List;
 import java.util.Map;

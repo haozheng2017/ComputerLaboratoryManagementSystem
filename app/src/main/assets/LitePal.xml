@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="db_stu_tea_use" />
+    <version value="1" />
+    <list>
+        <mapping class="com.example.zh.clms.database.Student_Apply.Student_Apply"></mapping>
+        <mapping class="com.example.zh.clms.database.Student_Apply.CateGory"></mapping>
+    </list>
+</litepal>

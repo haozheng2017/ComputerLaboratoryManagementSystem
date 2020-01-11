@@ -2,18 +2,12 @@ package com.example.zh.clms.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -28,20 +22,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zh.clms.R;
-import com.example.zh.clms.database.Admin;
-import com.example.zh.clms.database.AdminDao;
-import com.example.zh.clms.database.AdminService;
+import com.example.zh.clms.database.Admin.Admin;
+import com.example.zh.clms.database.Admin.AdminDao;
+import com.example.zh.clms.database.Admin.AdminService;
 import com.example.zh.clms.database.DatabaseOpenHelper;
-import com.example.zh.clms.database.Student;
-import com.example.zh.clms.database.StudentDao;
-import com.example.zh.clms.database.StudentService;
-import com.example.zh.clms.database.Teacher;
-import com.example.zh.clms.database.TeacherDao;
-import com.example.zh.clms.database.TeacherService;
+import com.example.zh.clms.database.Student.Student;
+import com.example.zh.clms.database.Student.StudentDao;
+import com.example.zh.clms.database.Student.StudentService;
+import com.example.zh.clms.database.Teacher.Teacher;
+import com.example.zh.clms.database.Teacher.TeacherDao;
+import com.example.zh.clms.database.Teacher.TeacherService;
 import com.example.zh.clms.utils.sp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import org.litepal.LitePal;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -53,8 +47,6 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView imageView;
-    private Dialog dialog;
     private Spinner spinner;
     private EditText editText_user, editText_password;
     private CheckBox checkBox_remember;
@@ -65,25 +57,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String adressIP = null;
     private String string_user = null, string_password = null;
     private String string_register_user = null, string_register_password = null;
-    public static Map<String, String> map_admin;
-    public static Map<String, String> map_Teacher;
-
-    private byte[] mContent;
 
     private ArrayAdapter<String> arrayAdapter;
 
-    private static final int TUKU = 1;
-    private static final int PAIZHAO = 2;
-    private static final String SHAREPREERENCES_KEY = "preferences_key";
     private static int POSTION = 0;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
 
         createdb();
+        LitePal.getDatabase();
+
         is_First_Run();
         init();
         setSpinner_OnClick();
@@ -95,7 +83,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private void init() {
         getApplicationContext();
-        imageView = findViewById(R.id.login_image_account);
         spinner = findViewById(R.id.login_spinner);
         editText_user = findViewById(R.id.login_editText_user);
         editText_password = findViewById(R.id.login_editText_password);
@@ -105,8 +92,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textView_register = findViewById(R.id.login_textview_register);
         textView_about = findViewById(R.id.login_textview_about);
 
-
-        imageView.setOnClickListener(this);
         button_Sign.setOnClickListener(this);
         textView_ip.setOnClickListener(this);
         textView_register.setOnClickListener(this);
@@ -117,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editText_password.setText(sp.sharedPreferences.getString("password", ""));
     }
 
-    //ImageView、Button、TextView_Ip、TextView_register监听事件
+    //Button、TextView_Ip、TextView_register监听事件
     @Override
     public void onClick(View v) {
         string_user = editText_user.getText().toString();
@@ -125,10 +110,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         adressIP = getIP();
 
         switch (v.getId()) {
-
-            case R.id.login_image_account:
-                showDialog();
-                break;
 
             case R.id.login_button:
                 if (adressIP == null) {
@@ -206,129 +187,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-
-    //点击头像底部出现dialog
-    private void showDialog() {
-
-        View view = getLayoutInflater().inflate(R.layout.activity_login_imageview_dialog, null);
-        view.findViewById(R.id.image_TUKU).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Gallery();
-                dialog.dismiss();
-            }
-        });
-        view.findViewById(R.id.image_PAIZHAO).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                camera();
-                dialog.dismiss();
-            }
-        });
-
-        view.findViewById(R.id.image_QUXIAO).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog = new Dialog(this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams
-                .FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        Window window = dialog.getWindow();
-
-        window.setWindowAnimations(R.style.main_menu_animstyle);
-        WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.x = 0;
-        layoutParams.y = getWindowManager().getDefaultDisplay().getHeight();
-
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-
-        dialog.onWindowAttributesChanged(layoutParams);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
-    }
-
-    //启动本地图库
-    private void Gallery() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, TUKU);
-    }
-
-    //启动相机
-    private void camera() {
-        Intent intent = new Intent("android" + ".media" + ".action" + ".IMAGE_CAPTURE");
-        startActivityForResult(intent, PAIZHAO);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        ContentResolver contentResolver = getContentResolver();
-        switch (requestCode) {
-            case TUKU:
-                if (resultCode == RESULT_OK) {
-                    if (data != null) {
-                        Uri originalUri = data.getData();
-                        InputStream inputStream = null;
-                        try {
-                            inputStream = contentResolver.openInputStream(Uri.parse(originalUri
-                                    .toString()));
-                            mContent = readStream(contentResolver.openInputStream(Uri.parse
-                                    (originalUri.toString())));
-                            Bitmap bitmap = getPicFromBytes(mContent, null);
-                            imageView.setImageBitmap(bitmap);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                dialog.dismiss();
-                break;
-
-            case PAIZHAO:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Bundle bundle = data.getExtras();
-                        Bitmap bitmap = (Bitmap) bundle.get("data");
-                        imageView.setImageBitmap(bitmap);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                dialog.dismiss();
-                break;
-        }
-    }
-
-    public static byte[] readStream(InputStream inputStream) throws Exception {
-        byte[] buffer = new byte[1024];
-        int len = -1;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        while ((len = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, len);
-        }
-        byte[] data = outputStream.toByteArray();
-        outputStream.close();
-        inputStream.close();
-        return data;
-    }
-
-    public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options options) {
-        if (bytes != null) {
-            if (options != null) {
-                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-            } else {
-                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            }
-        }
-        return null;
-    }
 
     //spinner监听事件
     private void setSpinner_OnClick() {
@@ -519,6 +377,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    //创建数据库
     private void createdb() {
         DatabaseOpenHelper dbOpenHelper = new DatabaseOpenHelper(getBaseContext());
         dbOpenHelper.getWritableDatabase();
@@ -526,11 +385,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     //测试超级账户（学生）
-    private void product_account_student() {
+    private void product_account_student(String str_name, String str_password) {
 
         Student student = new Student();
-        student.setUserName("zh");
-        student.setPassword("123");
+        student.setUserName(str_name);
+        student.setPassword(str_password);
         StudentService service = new StudentDao(getApplicationContext());
         Map<String, String> map = service.viewStudent(student);
         Object[] params = {student.getUserName(), student.getPassword()};
@@ -566,7 +425,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             setting.edit().putBoolean("FIRST", false).commit();
             product_account_admin();
             product_account_teacher();
-            product_account_student();
+            product_account_student("zh", "123");
+            product_account_student("stu", "123");
             //Toast.makeText(LoginActivity.this, "第一次", Toast.LENGTH_LONG).show();
         } else {
             // Toast.makeText(LoginActivity.this, "不是第一次", Toast.LENGTH_LONG).show();

@@ -1,28 +1,31 @@
-package com.example.zh.clms.database;
+package com.example.zh.clms.database.Admin;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.zh.clms.database.DatabaseOpenHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TeacherDao implements TeacherService {
+public class AdminDao implements AdminService {
+
     private DatabaseOpenHelper databaseOpenHelper = null;
 
-    public TeacherDao(Context context) {
+    public AdminDao(Context context) {
         databaseOpenHelper = new DatabaseOpenHelper(context);
     }
 
     @Override
-    public boolean addTeacher(Teacher teacher) {
+    public boolean addAdmin(Admin admin) {
         boolean flag = false;
         SQLiteDatabase database = null;
         try {
-            Object[] params = {teacher.getUserName(), teacher.getPassword()};
-            String sql = "insert into tea (userName,password) values (?,?)";
+            Object[] params = {admin.getUserName(), admin.getPassword()};
+            String sql = "insert into admin (userName,password) values (?,?)";
             database = databaseOpenHelper.getWritableDatabase();
             database.execSQL(sql, params);
             flag = true;
@@ -37,12 +40,12 @@ public class TeacherDao implements TeacherService {
     }
 
     @Override
-    public boolean deleteTeacher(Teacher teacher) {
+    public boolean deleteAdmin(Admin admin) {
         boolean flag = false;
         SQLiteDatabase database = null;
         try {
-            Object[] params = {teacher.getUserName()};
-            String sql = "delete from tea where userName=?";
+            Object[] params = {admin.getUserName()};
+            String sql = "delete from admin where userName=?";
             database = databaseOpenHelper.getWritableDatabase();
             database.execSQL(sql, params);
             flag = true;
@@ -57,11 +60,11 @@ public class TeacherDao implements TeacherService {
     }
 
     @Override
-    public boolean updateTeacher(Teacher teacher, Object[] params) {
+    public boolean updateAdmin(Admin admin, Object[] params) {
         boolean flag = false;
         SQLiteDatabase database = null;
         try {
-            String sql = "update tea set password=? where userName = ?";
+            String sql = "update admin set password=? where userName = ?";
             database = databaseOpenHelper.getWritableDatabase();
             database.execSQL(sql, params);
             flag = true;
@@ -76,12 +79,12 @@ public class TeacherDao implements TeacherService {
     }
 
     @Override
-    public Map<String, String> viewTeacher(Teacher teacher) {
+    public Map<String, String> viewAdmin(Admin admin) {
         Map<String, String> map = new HashMap<String, String>();
         SQLiteDatabase database = null;
         try {
-            String[] selectionArgs = {teacher.getUserName()};
-            String sql = "select userName,password from tea where userName = ?";
+            String[] selectionArgs = {admin.getUserName()};
+            String sql = "select userName,password from admin where userName = ?";
             database = databaseOpenHelper.getReadableDatabase();
             Cursor cursor = database.rawQuery(sql, selectionArgs);
             // 获得数据库的列的个数
@@ -107,10 +110,10 @@ public class TeacherDao implements TeacherService {
     }
 
     @Override
-    public List<Map<String, String>> listTeacherMaps() {
+    public List<Map<String, String>> listAdminMaps() {
         boolean flag = false;
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        String sql = "select userName,password from tea";
+        String sql = "select userName,password from admin";
         SQLiteDatabase database = null;
         try {
             database = databaseOpenHelper.getReadableDatabase();
@@ -138,3 +141,4 @@ public class TeacherDao implements TeacherService {
         return list;
     }
 }
+

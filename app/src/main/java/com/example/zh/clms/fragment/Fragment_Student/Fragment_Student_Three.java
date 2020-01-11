@@ -1,4 +1,4 @@
-package com.example.zh.clms.fragment;
+package com.example.zh.clms.fragment.Fragment_Student;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,26 +12,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zh.clms.R;
 import com.example.zh.clms.activity.LoginActivity;
-import com.example.zh.clms.activity.MainActivity_Student;
-import com.example.zh.clms.database.Student;
-import com.example.zh.clms.database.StudentDao;
-import com.example.zh.clms.database.StudentService;
+import com.example.zh.clms.adapter.ListViewAdapter_Student;
+import com.example.zh.clms.adapter.ListViewAdapter_Teacher;
+import com.example.zh.clms.database.Student.Student;
+import com.example.zh.clms.database.Student.StudentDao;
+import com.example.zh.clms.database.Student_Apply.Student_Apply;
 import com.example.zh.clms.utils.sp;
 
-import java.util.Map;
+import org.litepal.LitePal;
 
-public class Fragment_Student_Three extends Fragment implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Fragment_Student_Three extends Fragment implements View.OnClickListener, AdapterView
+        .OnItemClickListener {
     private RelativeLayout re_personal_info, re_userPassword_update, re_exit_login, re_exit_app;
     private View view;
+    ArrayList<String> list_name = new ArrayList<>();
+    ArrayList<String> list_phone = new ArrayList<>();
+    ArrayList<String> list_roomNumber = new ArrayList<>();
+    ArrayList<String> list_startTime = new ArrayList<>();
+    ArrayList<String> list_endTime = new ArrayList<>();
+    ArrayList<Integer> list_state = new ArrayList<>();
+    private ListView listView;
+    private ListViewAdapter_Student adapter;
+
     private String string_getuser;
     private String string_getpassword;
     private String str_ed_first;
@@ -54,6 +70,9 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         re_exit_login = view.findViewById(R.id.fragment_three_RelativeLayout_exit_login);
         re_exit_app = view.findViewById(R.id.fragment_three_RelativeLayout_exit_app);
 
+        listView = view.findViewById(R.id.fragment_student_three_listView);
+        listView.setOnItemClickListener(this);
+
         re_personal_info.setOnClickListener(this);
         re_userPassword_update.setOnClickListener(this);
         re_exit_login.setOnClickListener(this);
@@ -63,6 +82,8 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         string_getuser = sp.sharedPreferences.getString("user", "");
         string_getpassword = sp.sharedPreferences.getString("password", "");
         t = string_getuser;
+
+        addDataIn_Listview();
     }
 
     @Override
@@ -179,6 +200,7 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                deleteVeto();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
@@ -203,6 +225,7 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                deleteVeto();
                 getActivity().finish();
             }
         });
@@ -214,5 +237,48 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.alpha = 0.85f;
         window.setAttributes(layoutParams);
+    }
+
+    private void addDataIn_Listview() {
+        list_name.clear();
+        list_phone.clear();
+        list_roomNumber.clear();
+        list_startTime.clear();
+        list_endTime.clear();
+        list_state.clear();
+        List<Student_Apply> User = LitePal.where("user = ? ", string_getuser).find(Student_Apply
+                .class);
+        for (Student_Apply student_apply : User) {
+            list_name.add("申请人姓名：" + student_apply.getName());
+            list_phone.add("申请人电话：" + student_apply.getPhone());
+            list_roomNumber.add("实验室门牌号：" + student_apply.getRoomNumber());
+            list_startTime.add("开始使用时间：" + student_apply.getStartTime());
+            list_endTime.add("截止使用时间：" + student_apply.getEndTime());
+            list_state.add(student_apply.getTagg());
+        }
+
+        adapter = new ListViewAdapter_Student(getContext(), list_name, list_phone,
+                list_roomNumber, list_startTime, list_endTime, list_state);
+        listView.setAdapter(adapter);
+//        Toast.makeText(getContext(), "所有申请查找成功！", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("您的申请结果已经告知，下次登录将不会显示已否决的申请！");
+        builder.setPositiveButton("嗯，好的！", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteVeto() {
+        LitePal.deleteAll(Student_Apply.class, "user = ? and tagg = ? ", string_getuser, "1");
     }
 }

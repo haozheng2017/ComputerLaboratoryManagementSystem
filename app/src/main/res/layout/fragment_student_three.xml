@@ -147,4 +147,23 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/Gainsboro" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="本账户的申请如下"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/Gray" />
+    <ListView
+        android:id="@+id/fragment_student_three_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

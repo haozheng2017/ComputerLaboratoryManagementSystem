@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.example.zh.clms.R;
 import com.example.zh.clms.adapter.ViewPagerAdapter;
-import com.example.zh.clms.fragment.Fragment_Student_One;
-import com.example.zh.clms.fragment.Fragment_Teacher_Three;
-import com.example.zh.clms.fragment.Fragment_Teacher_Two;
+import com.example.zh.clms.fragment.Fragment_Student.Fragment_Student_One;
+import com.example.zh.clms.fragment.Fragment_Teacher.Fragment_Teacher_Three;
+import com.example.zh.clms.fragment.Fragment_Teacher.Fragment_Teacher_Two;
 
 import java.util.ArrayList;
 import java.util.List;

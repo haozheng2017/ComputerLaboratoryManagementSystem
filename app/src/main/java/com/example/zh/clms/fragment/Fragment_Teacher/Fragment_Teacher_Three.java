@@ -1,4 +1,4 @@
-package com.example.zh.clms.fragment;
+package com.example.zh.clms.fragment.Fragment_Teacher;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +21,8 @@ import android.widget.Toast;
 
 import com.example.zh.clms.R;
 import com.example.zh.clms.activity.LoginActivity;
-import com.example.zh.clms.database.Student;
-import com.example.zh.clms.database.StudentDao;
-import com.example.zh.clms.database.Teacher;
-import com.example.zh.clms.database.TeacherDao;
+import com.example.zh.clms.database.Teacher.Teacher;
+import com.example.zh.clms.database.Teacher.TeacherDao;
 import com.example.zh.clms.utils.sp;
 
 public class Fragment_Teacher_Three extends Fragment implements View.OnClickListener {

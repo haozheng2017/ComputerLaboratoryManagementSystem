@@ -8,15 +8,42 @@
     android:orientation="vertical"
     tools:context="com.example.zh.clms.activity.LoginActivity">
 
+    <TextView
+        android:id="@+id/login_text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center|top"
+        android:paddingTop="10dp"
+        android:text="计算机实验室管理系统"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
 
-    <com.example.zh.clms.view.AppCompatImageView
+    <TextView
+        android:id="@+id/login_text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_text1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:text="@string/login_text2"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <ImageView
         android:id="@+id/login_image_account"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/ic_account"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_width="match_parent"
+        android:layout_height="163dp"
+        android:layout_below="@+id/login_text2"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/clms" />
 
     <Spinner
         android:id="@+id/login_spinner"
@@ -24,12 +51,15 @@
         android:layout_height="50dp"
         android:layout_below="@id/login_image_account"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
+        android:background="@color/Coral"
+        android:dropDownHorizontalOffset="50dp"
+        android:dropDownVerticalOffset="0dp"
         android:spinnerMode="dropdown" />
 
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@+id/login_linear1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -38,22 +68,23 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp">
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@mipmap/ic_user" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/login_editText_user"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/login_editText_user"
             android:inputType="text"
+            android:text="zh"
             android:textCursorDrawable="@drawable/edittext_bottom_line"
             android:textSize="25dp" />
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@+id/login_linear2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -62,29 +93,30 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="20dp">
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@mipmap/ic_password" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/login_editText_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/login_editText_password"
+            android:text="123"
             android:inputType="textPassword"
             android:textCursorDrawable="@drawable/edittext_bottom_line"
             android:textSize="25dp" />
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@+id/login_linear3"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/login_linear2"
         android:layout_margin="20dp">
 
-        <android.support.v7.widget.AppCompatCheckBox
+        <CheckBox
             android:id="@+id/login_checkbox2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -99,7 +131,7 @@
             android:layout_alignParentLeft="true"
             android:text="@string/login_textview_ip"
             android:textColor="@color/black" />
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 
     <Button
         android:id="@+id/login_button"
@@ -120,7 +152,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_button"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:layout_marginRight="25dp"
         android:textSize="20dp">
 

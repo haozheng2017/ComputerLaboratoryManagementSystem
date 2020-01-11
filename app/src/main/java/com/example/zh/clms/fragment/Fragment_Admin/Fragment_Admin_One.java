@@ -1,4 +1,4 @@
-package com.example.zh.clms.fragment;
+package com.example.zh.clms.fragment.Fragment_Admin;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,14 +13,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.zh.clms.R;
-import com.example.zh.clms.activity.LoginActivity;
 import com.example.zh.clms.adapter.ListViewAdapter;
-import com.example.zh.clms.database.Admin;
-import com.example.zh.clms.database.AdminDao;
-import com.example.zh.clms.database.AdminService;
+import com.example.zh.clms.database.Admin.Admin;
+import com.example.zh.clms.database.Admin.AdminDao;
+import com.example.zh.clms.database.Admin.AdminService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

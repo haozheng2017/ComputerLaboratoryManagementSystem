@@ -1,9 +1,8 @@
-package com.example.zh.clms.fragment;
+package com.example.zh.clms.fragment.Fragment_Student;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,10 +23,16 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.zh.clms.R;
+import com.example.zh.clms.database.Student_Apply.Student_Apply;
+import com.example.zh.clms.utils.sp;
+
+import org.litepal.LitePal;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Fragment_Student_Two extends Fragment implements View.OnClickListener {
 
@@ -36,11 +41,16 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
     private Spinner spinner;
     private Button button_start1, button_start2, button_end1, button_end2, button_commit;
 
-    private String string_name, string_phone, string_spinnerValue;
+    private String string_name, string_phone, string_spinnerValue, string_startTime,
+            string_endTime, string_user;
     private String[] strings_spinner;
+    private int id = 1;
+
     private ArrayAdapter<String> arrayAdapter;
     private int m_year = 2019, m_month = 12, m_day = 1, m_hour = 0, m_minute = 0;
     private int m_year2 = 2019, m_month2 = 12, m_day2 = 1, m_hour2 = 0, m_minute2 = 0;
+    ArrayList<String> list_startTime = new ArrayList<>();
+    ArrayList<String> list_endTime = new ArrayList<>();
 
     @Nullable
     @Override
@@ -105,9 +115,6 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
                 break;
             case R.id.fragment_student_two_button_end_2:
                 showEndHourMinute_choose();
-//                Toast.makeText(getContext(), getTimeCompareSize(m_year + "-" + m_month + "-" +
-//                        m_day + " " + m_hour + ":" + m_minute, m_year2 + "-" + m_month2 + "-" +
-//                        m_day2 + " " + m_hour2 + ":" + m_minute2) + "", Toast.LENGTH_LONG).show();
                 break;
             case R.id.fragment_student_two_button_commit:
                 if (string_name.equals("")) {
@@ -202,6 +209,8 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
         dialog.show();
     }
 
+
+    //两个时间判断大小
     public static int getTimeCompareSize(String startTime, String endTime) {
         int i = 0;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");//年-月-日 时-分
@@ -229,7 +238,20 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //提交申请
+                string_startTime = m_year + "-" + (m_month + 1) + "-" + m_day + " " + m_hour +
+                        ":" + m_minute;
+                string_endTime = m_year2 + "-" + (m_month2 + 1) + "-" + m_day2 + " " + "" +
+                        m_hour2 + ":" + m_minute2;
+                //将数据提交到数据库
+//---------------------------------------------------------------------------------------
+                saveInDatabase();
+//---------------------------------------------------------------------------------------
+
+//                Toast.makeText(getContext(), "申请人姓名：" + string_name + "\n申请人电话：" + string_phone +
+//                        "\n实验室门牌号：" + string_spinnerValue + "\n开始使用时间：" + m_year + "-" + (m_month
+//                        + 1) + "-" + m_day + " " + m_hour + ":" + m_minute + "\n截止使用时间：" +
+//                        m_year2 + "-" + (m_month2 + 1) + "-" + m_day2 + " " + m_hour2 + ":" +
+//                        m_minute2, Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("取消", null);
@@ -241,4 +263,83 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
         layoutParams.alpha = 0.85f;
         window.setAttributes(layoutParams);
     }
+
+    private void saveInDatabase() {
+
+        boolean flag = false;
+        boolean flag1 = false;
+        sp.getData(getContext());
+        string_user = sp.sharedPreferences.getString("user", "");
+//        Toast.makeText(getContext(), string_user , Toast.LENGTH_SHORT).show();
+
+        List<Student_Apply> Rom_startTime = LitePal.where("roomNumber = ? and startTime = ?",
+                string_spinnerValue, string_startTime).find(Student_Apply.class);
+        List<Student_Apply> Rom_endTime = LitePal.where("roomNumber = ? and endTime = ?",
+                string_spinnerValue, string_endTime).find(Student_Apply.class);
+        List<Student_Apply> Rom_start_end = LitePal.findAll(Student_Apply.class);
+        for (int i = 0; i < Rom_start_end.size(); i++) {
+            if (Rom_start_end.get(i).getRoomNumber().trim().equals(string_spinnerValue)) {
+                if (getTimeCompareSize(Rom_start_end.get(i).getStartTime(), string_startTime) ==
+                        3 && (getTimeCompareSize(Rom_start_end.get(i).getEndTime(),
+                        string_startTime) == 1)) {
+                    flag = true;
+                    break;
+                } else {
+                    flag = false;
+                }
+            }
+        }
+        for (int i = 0; i < Rom_start_end.size(); i++) {
+            if (Rom_start_end.get(i).getRoomNumber().trim().equals(string_spinnerValue)) {
+                if (getTimeCompareSize(Rom_start_end.get(i).getStartTime(), string_endTime) == 3
+                        && (getTimeCompareSize(Rom_start_end.get(i).getEndTime(), string_endTime)
+                        == 1)) {
+                    flag1 = true;
+                    break;
+                } else {
+                    flag1 = false;
+                }
+            }
+        }
+//        Toast.makeText(getContext(), flag + "", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), flag1 + "", Toast.LENGTH_SHORT).show();
+
+//        for (Student_Apply student_apply : student_applies) {
+//            Toast.makeText(getContext(), "申请人姓名：" + student_apply.getName() + "\n申请人电话：" +
+//                    student_apply.getPhone() + "\n实验室门牌号：" + student_apply.getRoomNumber() +
+//                    "\n开始使用时间：" + student_apply.getStartTime() + "\n截止使用时间：" + student_apply
+//                    .getEndTime(), Toast.LENGTH_SHORT).show();
+//        }
+
+        if (Rom_startTime.isEmpty() == false) {
+            Toast.makeText(getContext(), "教室" + Rom_startTime.get(0).getRoomNumber() + "在\n" +
+                    Rom_startTime.get(0).getStartTime() + "到\n" + Rom_startTime.get(0).getEndTime
+                    () + "\n时间段内已有申请", Toast.LENGTH_LONG).show();
+        } else if (Rom_endTime.isEmpty() == false) {
+            Toast.makeText(getContext(), Rom_endTime.get(0).getRoomNumber() + "在\n" + Rom_endTime
+                    .get(0).getStartTime() + "到\n" + Rom_endTime.get(0).getEndTime() +
+                    "\n时间段内已有申请", Toast.LENGTH_LONG).show();
+        } else if (flag == true) {
+            Toast.makeText(getContext(), "您的 开始时间 在别人的使用时间段内", Toast.LENGTH_LONG).show();
+        } else if (flag1 == true) {
+            Toast.makeText(getContext(), "您的 结束时间 在别人的使用时间段内", Toast.LENGTH_LONG).show();
+        } else {
+            id = id + 1;
+            Student_Apply student_apply1 = new Student_Apply();
+
+            student_apply1.setId(id);
+
+            student_apply1.setName(string_name);
+            student_apply1.setPhone(string_phone);
+            student_apply1.setRoomNumber(string_spinnerValue);
+            student_apply1.setStartTime(string_startTime);
+            student_apply1.setEndTime(string_endTime);
+            student_apply1.setTagg(0);
+
+            student_apply1.setUser(string_user);
+            student_apply1.save();
+            Toast.makeText(getContext(), "申请成功", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
+
