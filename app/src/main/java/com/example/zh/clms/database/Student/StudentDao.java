@@ -24,8 +24,9 @@ public class StudentDao implements StudentService {
         boolean flag = false;
         SQLiteDatabase database = null;
         try {
-            Object[] params = {student.getUserName(), student.getPassword()};
-            String sql = "insert into stu (userName,password) values (?,?)";
+            Object[] params = {student.getUserName(), student.getPassword(), student.getRealName
+                    (), student.getGradeClass()};
+            String sql = "insert into stu (userName,password,realName,gradeClass) values (?,?,?,?)";
             database = databaseOpenHelper.getWritableDatabase();
             database.execSQL(sql, params);
             flag = true;
@@ -84,7 +85,38 @@ public class StudentDao implements StudentService {
         SQLiteDatabase database = null;
         try {
             String[] selectionArgs = {student.getUserName()};
-            String sql = "select userName,password from stu where userName = ?";
+            String sql = "select userName,password,realName,gradeClass from stu where userName = ?";
+            database = databaseOpenHelper.getReadableDatabase();
+            Cursor cursor = database.rawQuery(sql, selectionArgs);
+            // 获得数据库的列的个数
+            int colums = cursor.getColumnCount();
+            while (cursor.moveToNext()) {
+                for (int i = 0; i < colums; i++) {
+                    String cols_name = cursor.getColumnName(i);
+                    String cols_value = cursor.getString(cursor.getColumnIndex(cols_name));
+                    if (cols_name == null) {
+                        cols_name = "";
+                    }
+                    map.put(cols_name, cols_value);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+        return map;
+    }
+
+    @Override
+    public Map<String, String> singleInfo(Student student) {
+        Map<String, String> map = new HashMap<String, String>();
+        SQLiteDatabase database = null;
+        try {
+            String[] selectionArgs = {student.getUserName()};
+            String sql = "select realName,gradeClass from stu where userName = ?";
             database = databaseOpenHelper.getReadableDatabase();
             Cursor cursor = database.rawQuery(sql, selectionArgs);
             // 获得数据库的列的个数
@@ -113,7 +145,7 @@ public class StudentDao implements StudentService {
     public List<Map<String, String>> listStudentMaps() {
         boolean flag = false;
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        String sql = "select userName,password from stu";
+        String sql = "select userName,password,realName,gradeClass from stu";
         SQLiteDatabase database = null;
         try {
             database = databaseOpenHelper.getReadableDatabase();

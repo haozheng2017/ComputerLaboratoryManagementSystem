@@ -24,16 +24,17 @@ import android.widget.Toast;
 import com.example.zh.clms.R;
 import com.example.zh.clms.activity.LoginActivity;
 import com.example.zh.clms.adapter.ListViewAdapter_Student;
-import com.example.zh.clms.adapter.ListViewAdapter_Teacher;
 import com.example.zh.clms.database.Student.Student;
 import com.example.zh.clms.database.Student.StudentDao;
-import com.example.zh.clms.database.Student_Apply.Student_Apply;
+import com.example.zh.clms.database.LitePal_Student_Apply.Student_Apply;
+import com.example.zh.clms.database.Student.StudentService;
 import com.example.zh.clms.utils.sp;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Fragment_Student_Three extends Fragment implements View.OnClickListener, AdapterView
         .OnItemClickListener {
@@ -54,12 +55,15 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
     private String str_ed_second;
     private static String t;
 
+    private boolean disagree = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_student_three, container, false);
         init();
+
         return view;
     }
 
@@ -117,10 +121,16 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         string_getpassword = sp.sharedPreferences.getString("password", "");
         t = string_getuser;
 
+        Student student = new Student();
+        student.setUserName(string_getuser);
+        StudentService service = new StudentDao(getContext());
+        Map<String, String> map = service.singleInfo(student);
+
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view
                 .getContext());
         builder.setTitle("用户信息");
-        builder.setItems(new String[]{"用户名：" + string_getuser, "密码：" + string_getpassword}, null);
+        builder.setItems(new String[]{"用户名：" + string_getuser, "密码：" + string_getpassword,
+                "真实姓名：" + map.get("realName"), "班级:" + map.get("gradeClass")}, null);
 
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -200,7 +210,9 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteVeto();
+                if (disagree == true) {
+                    deleteDisagree();
+                }
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
@@ -225,7 +237,9 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteVeto();
+                if (disagree == true) {
+                    deleteDisagree();
+                }
                 getActivity().finish();
             }
         });
@@ -271,14 +285,30 @@ public class Fragment_Student_Three extends Fragment implements View.OnClickList
         builder.setPositiveButton("嗯，好的！", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                disagree = true;
             }
         });
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
-    private void deleteVeto() {
+    private void deleteDisagree() {
         LitePal.deleteAll(Student_Apply.class, "user = ? and tagg = ? ", string_getuser, "1");
     }
+
+//    private void deleteAgree() {
+//        List<Student_Apply> User = LitePal.where("user = ?  ", string_getuser).find(Student_Apply
+//                .class);
+//        for (Student_Apply student_apply : User) {
+//            if(Fragment_Student_Two.getTimeCompareSize(student_apply
+//                    .getEndTime(), simpleDateFormat.format(date)) == 1){
+//
+//            }
+////            Toast.makeText(getContext(), (Fragment_Student_Two.getTimeCompareSize(student_apply
+////                    .getEndTime(), simpleDateFormat.format(date)) == 1) + "", Toast
+// .LENGTH_SHORT)
+////                    .show();
+//        }
+//
+//    }
 }

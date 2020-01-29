@@ -24,37 +24,6 @@
             android:textSize="23dp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/textview_border"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="用户名"
-                android:textColor="@color/black"
-                android:textSize="17dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/textview_border"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="密码"
-                android:textColor="@color/black"
-                android:textSize="17dp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
 
         <ListView
             android:id="@+id/fragmentAdmin2_listView"
@@ -119,20 +88,20 @@
                 android:singleLine="true" />
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/fragmentAdmin2_button_insert"
+                android:id="@+id/fragmentAdmin2_button_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@drawable/normal_button_select"
-                android:text="添加该账户"
+                android:text="删除该账户"
                 android:textColor="@color/white" />
 
 
@@ -153,14 +122,6 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/fragmentAdmin2_button_delete"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/normal_button_select"
-                android:text="删除该账户"
-                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/fragmentAdmin2_button_select"
@@ -170,16 +131,19 @@
                 android:background="@drawable/normal_button_select"
                 android:text="查用户名账户"
                 android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/fragmentAdmin2_button_select_all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/normal_button_select"
+                android:text="查询所有账户"
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/fragmentAdmin2_button_select_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/normal_button_select"
-            android:text="查询所有账户"
-            android:textColor="@color/white" />
+
     </LinearLayout>
 
 </LinearLayout>

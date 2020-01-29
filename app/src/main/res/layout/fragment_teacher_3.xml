@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/fragment_teacher_3_imageView_personal_info"
-            android:text="用户信息"
+            android:text="账户信息"
             android:textSize="27dp" />
 
         <ImageView
@@ -34,7 +34,41 @@
             android:src="@mipmap/ic_right_arrow" />
 
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/Gainsboro" />
 
+    <RelativeLayout
+        android:id="@+id/fragment_teacher_3_RelativeLayout_personInfo_update"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/fragment_teacher_3_imageView_personInfo_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_perinfo_update" />
+
+        <TextView
+            android:id="@+id/fragment_teacher_3_textView_person_info_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/fragment_teacher_3_imageView_personInfo_update"
+            android:text="个人信息修改"
+            android:textSize="27dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_right_arrow" />
+
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"

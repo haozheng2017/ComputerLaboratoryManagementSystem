@@ -15,12 +15,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="center_horizontal"
-            android:text="@string/login_textview_register"
+            android:text="个人信息修改"
             android:textColor="@color/black"
             android:textSize="30dp" />
 
         <ImageView
-            android:id="@+id/register_imageview_Close"
+            android:id="@+id/fragment_student_three_personInfo_update_imageView_Close"
             android:layout_width="wrap_content"
             android:layout_height="41dp"
             android:layout_alignParentRight="true"
@@ -40,12 +40,31 @@
             android:layout_height="40dp"
             android:src="@mipmap/ic_user" />
 
-        <EditText
-            android:id="@+id/register_editText_user"
+        <TextView
+            android:id="@+id/fragment_student_three_personInfo_update_TextView_username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="@string/login_editText_user"
-            android:inputType="text"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_name_update" />
+
+        <EditText
+            android:id="@+id/fragment_student_three_personInfo_update_editText_first"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="真实姓名修改"
+            android:inputType="textVisiblePassword"
             android:textSize="25dp" />
     </LinearLayout>
 
@@ -59,19 +78,19 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@mipmap/ic_password" />
+            android:src="@mipmap/ic_phone_update" />
 
         <EditText
-            android:id="@+id/register_editText_password"
+            android:id="@+id/fragment_student_three_personInfo_update_editText_second"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/login_editText_password"
-            android:inputType="textPassword"
+            android:hint="联系电话修改"
+            android:inputType="phone"
             android:textSize="25dp" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/fragment_student_three_personInfo_update_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -81,7 +100,7 @@
         android:background="@drawable/login_button_select"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="注 册"
+        android:text="确认修改"
         android:textColor="@color/white"
         android:textSize="20dp" />
 

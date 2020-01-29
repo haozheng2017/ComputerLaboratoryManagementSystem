@@ -23,7 +23,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.zh.clms.R;
-import com.example.zh.clms.database.Student_Apply.Student_Apply;
+import com.example.zh.clms.database.LitePal_Student_Apply.Student_Apply;
 import com.example.zh.clms.utils.sp;
 
 import org.litepal.LitePal;
@@ -43,8 +43,8 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
 
     private String string_name, string_phone, string_spinnerValue, string_startTime,
             string_endTime, string_user;
-    private String[] strings_spinner;
     private int id = 1;
+    private String[] strings_spinner;
 
     private ArrayAdapter<String> arrayAdapter;
     private int m_year = 2019, m_month = 12, m_day = 1, m_hour = 0, m_minute = 0;
@@ -209,6 +209,12 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
         dialog.show();
     }
 
+    //获取当前系统时间
+    public static String thisTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");// HH:mm:ss
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
+    }
 
     //两个时间判断大小
     public static int getTimeCompareSize(String startTime, String endTime) {
@@ -218,7 +224,7 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
             Date date1 = dateFormat.parse(startTime);//开始时间
             Date date2 = dateFormat.parse(endTime);//结束时间
             // 1 结束时间小于开始时间 2 开始时间与结束时间相同 3 结束时间大于开始时间
-            if (date2.getTime() < date1.getTime()) {
+            if (date1.getTime() > date2.getTime()) {
                 i = 1;
             } else if (date2.getTime() == date1.getTime()) {
                 i = 2;
@@ -268,6 +274,8 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
 
         boolean flag = false;
         boolean flag1 = false;
+        boolean flag2 = false;
+        boolean flag3 = false;
         sp.getData(getContext());
         string_user = sp.sharedPreferences.getString("user", "");
 //        Toast.makeText(getContext(), string_user , Toast.LENGTH_SHORT).show();
@@ -301,6 +309,35 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
                 }
             }
         }
+
+        List<Student_Apply> Name_stus = LitePal.where("name = ? ", string_name).find
+                (Student_Apply.class);
+        for (int i = 0; i < Name_stus.size(); i++) {
+            if (getTimeCompareSize(Name_stus.get(i).getStartTime(), string_startTime) == 3 &&
+                    (getTimeCompareSize(Name_stus.get(i).getEndTime(), string_startTime) == 1)) {
+                flag2 = true;
+                break;
+            } else if (getTimeCompareSize(Name_stus.get(i).getStartTime(), string_startTime) == 2) {
+                flag2 = true;
+                break;
+            } else {
+                flag2 = false;
+            }
+
+        }
+        for (int i = 0; i < Name_stus.size(); i++) {
+            if (getTimeCompareSize(Name_stus.get(i).getStartTime(), string_endTime) == 3 &&
+                    (getTimeCompareSize(Name_stus.get(i).getEndTime(), string_endTime) == 1)) {
+                flag3 = true;
+                break;
+            } else if (getTimeCompareSize(Name_stus.get(i).getStartTime(), string_endTime) == 2) {
+                flag2 = true;
+                break;
+            } else {
+                flag3 = false;
+            }
+
+        }
 //        Toast.makeText(getContext(), flag + "", Toast.LENGTH_SHORT).show();
 //        Toast.makeText(getContext(), flag1 + "", Toast.LENGTH_SHORT).show();
 
@@ -323,6 +360,14 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
             Toast.makeText(getContext(), "您的 开始时间 在别人的使用时间段内", Toast.LENGTH_LONG).show();
         } else if (flag1 == true) {
             Toast.makeText(getContext(), "您的 结束时间 在别人的使用时间段内", Toast.LENGTH_LONG).show();
+        } else if (getTimeCompareSize(string_startTime, thisTime()) == 3) {
+            Toast.makeText(getContext(), "您不能对 已经过去的时间 进行申请", Toast.LENGTH_LONG).show();
+        } else if (getTimeCompareSize(string_endTime, thisTime()) == 3) {
+            Toast.makeText(getContext(), "您不能对 已经过去的时间 进行申请", Toast.LENGTH_LONG).show();
+        } else if (flag2 == true) {
+            Toast.makeText(getContext(), "同一个申请人在同一时间段内只能申请一次", Toast.LENGTH_LONG).show();
+        } else if (flag3 == true) {
+            Toast.makeText(getContext(), "同一个申请人在同一时间段内只能申请一次", Toast.LENGTH_LONG).show();
         } else {
             id = id + 1;
             Student_Apply student_apply1 = new Student_Apply();
@@ -341,5 +386,6 @@ public class Fragment_Student_Two extends Fragment implements View.OnClickListen
             Toast.makeText(getContext(), "申请成功", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
 

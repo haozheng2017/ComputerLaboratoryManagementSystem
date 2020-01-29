@@ -23,8 +23,10 @@ public class TeacherDao implements TeacherService {
         boolean flag = false;
         SQLiteDatabase database = null;
         try {
-            Object[] params = {teacher.getUserName(), teacher.getPassword()};
-            String sql = "insert into tea (userName,password) values (?,?)";
+            Object[] params = {teacher.getUserName(), teacher.getPassword(), teacher.getRealName
+                    (), teacher.getPhoneNumber(), teacher.getRoomNum()};
+            String sql = "insert into tea (userName,password,realName,phoneNumber,roomNum) " +
+                    "values" + " (?,?,?,?,?)";
             database = databaseOpenHelper.getWritableDatabase();
             database.execSQL(sql, params);
             flag = true;
@@ -78,12 +80,63 @@ public class TeacherDao implements TeacherService {
     }
 
     @Override
+    public boolean updatePersonTeacher(Teacher teacher, Object[] params) {
+        boolean flag = false;
+        SQLiteDatabase database = null;
+        try {
+            String sql = "update tea set realName=?,phoneNumber=? where userName = ?";
+            database = databaseOpenHelper.getWritableDatabase();
+            database.execSQL(sql, params);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+        return flag;
+    }
+
+    @Override
     public Map<String, String> viewTeacher(Teacher teacher) {
         Map<String, String> map = new HashMap<String, String>();
         SQLiteDatabase database = null;
         try {
             String[] selectionArgs = {teacher.getUserName()};
-            String sql = "select userName,password from tea where userName = ?";
+            String sql = "select userName,password,realName,phoneNumber,roomNum from tea where "
+                    + "userName = ?";
+            database = databaseOpenHelper.getReadableDatabase();
+            Cursor cursor = database.rawQuery(sql, selectionArgs);
+            // 获得数据库的列的个数
+            int colums = cursor.getColumnCount();
+            while (cursor.moveToNext()) {
+                for (int i = 0; i < colums; i++) {
+                    String cols_name = cursor.getColumnName(i);
+                    String cols_value = cursor.getString(cursor.getColumnIndex(cols_name));
+                    if (cols_name == null) {
+                        cols_name = "";
+                    }
+                    map.put(cols_name, cols_value);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+        return map;
+    }
+
+    @Override
+    public Map<String, String> singleInfoTeacher(Teacher teacher) {
+        Map<String, String> map = new HashMap<String, String>();
+        SQLiteDatabase database = null;
+        try {
+            String[] selectionArgs = {teacher.getUserName()};
+            String sql = "select roomNum from tea where userName = ?";
             database = databaseOpenHelper.getReadableDatabase();
             Cursor cursor = database.rawQuery(sql, selectionArgs);
             // 获得数据库的列的个数
@@ -112,7 +165,7 @@ public class TeacherDao implements TeacherService {
     public List<Map<String, String>> listTeacherMaps() {
         boolean flag = false;
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        String sql = "select userName,password from tea";
+        String sql = "select userName,password,realName,phoneNumber,roomNum from tea";
         SQLiteDatabase database = null;
         try {
             database = databaseOpenHelper.getReadableDatabase();

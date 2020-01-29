@@ -20,6 +20,9 @@ public interface StudentService {
     //查询单个数据，返回map键值对
     public Map<String, String> viewStudent(Student student);
 
+    //查询用户信息值
+    public Map<String, String> singleInfo(Student student);
+
     //查询多个数据
     public List<Map<String, String>> listStudentMaps();
 

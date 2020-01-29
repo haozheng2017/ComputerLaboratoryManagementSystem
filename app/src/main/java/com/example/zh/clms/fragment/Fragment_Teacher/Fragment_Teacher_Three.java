@@ -23,16 +23,22 @@ import com.example.zh.clms.R;
 import com.example.zh.clms.activity.LoginActivity;
 import com.example.zh.clms.database.Teacher.Teacher;
 import com.example.zh.clms.database.Teacher.TeacherDao;
+import com.example.zh.clms.database.Teacher.TeacherService;
 import com.example.zh.clms.utils.sp;
+
+import java.util.Map;
 
 public class Fragment_Teacher_Three extends Fragment implements View.OnClickListener {
 
-    private RelativeLayout re_personal_info, re_userPassword_update, re_exit_login, re_exit_app;
+    private RelativeLayout re_personal_info, re_presonInfo_update, re_userPassword_update,
+            re_exit_login, re_exit_app;
     private View view;
     private String string_getuser;
     private String string_getpassword;
     private String str_ed_first;
     private String str_ed_second;
+    private String str_updateName;
+    private String str_updatePhone;
     private static String t;
 
     @Nullable
@@ -46,12 +52,15 @@ public class Fragment_Teacher_Three extends Fragment implements View.OnClickList
 
     private void init() {
         re_personal_info = view.findViewById(R.id.fragment_teacher_3_RelativeLayout_personal_info);
+        re_presonInfo_update = view.findViewById(R.id
+                .fragment_teacher_3_RelativeLayout_personInfo_update);
         re_userPassword_update = view.findViewById(R.id
                 .fragment_teacher_3_RelativeLayout_userPassword_update);
         re_exit_login = view.findViewById(R.id.fragment_teacher_3_RelativeLayout_exit_login);
         re_exit_app = view.findViewById(R.id.fragment_teacher_3_RelativeLayout_exit_app);
 
         re_personal_info.setOnClickListener(this);
+        re_presonInfo_update.setOnClickListener(this);
         re_userPassword_update.setOnClickListener(this);
         re_exit_login.setOnClickListener(this);
         re_exit_app.setOnClickListener(this);
@@ -68,6 +77,10 @@ public class Fragment_Teacher_Three extends Fragment implements View.OnClickList
             case R.id.fragment_teacher_3_RelativeLayout_personal_info:
                 //用户信息
                 showPersonalDialog();
+                break;
+            case R.id.fragment_teacher_3_RelativeLayout_personInfo_update:
+                //用户名密码修改
+                show_personInfo_update_Dialog();
                 break;
             case R.id.fragment_teacher_3_RelativeLayout_userPassword_update:
                 //用户名密码修改
@@ -92,10 +105,17 @@ public class Fragment_Teacher_Three extends Fragment implements View.OnClickList
         string_getpassword = sp.sharedPreferences.getString("password", "");
         t = string_getuser;
 
+        Teacher teacher = new Teacher();
+        teacher.setUserName(string_getuser);
+        TeacherService service = new TeacherDao(getContext());
+        Map<String, String> map = service.viewTeacher(teacher);
+
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view
                 .getContext());
         builder.setTitle("用户信息");
-        builder.setItems(new String[]{"用户名：" + string_getuser, "密码：" + string_getpassword}, null);
+        builder.setItems(new String[]{"用户名：" + string_getuser, "密码：" + string_getpassword,
+                "真实姓名：" + map.get("realName"), "电话号：" + map.get("phoneNumber"), "管理的实验室是：" + map
+                .get("roomNum")}, null);
 
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -110,6 +130,60 @@ public class Fragment_Teacher_Three extends Fragment implements View.OnClickList
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.alpha = 0.8f;
         window.setAttributes(layoutParams);
+    }
+
+    //个人信息修改
+    private void show_personInfo_update_Dialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+
+        final View view = View.inflate(getContext(), R.layout
+                .fragment_teacher_3_personinfo_update_alertdialog, null);
+        final TextView personInfo_update_textView_username = view.findViewById(R.id
+                .fragment_student_three_personInfo_update_TextView_username);
+        final ImageView personInfo_update_imageView_close = view.findViewById(R.id
+                .fragment_student_three_personInfo_update_imageView_Close);
+        final EditText personInfo_update_editText_first = view.findViewById(R.id
+                .fragment_student_three_personInfo_update_editText_first);
+        final EditText personInfo_update_editText_second = view.findViewById(R.id
+                .fragment_student_three_personInfo_update_editText_second);
+        final Button personInfo_update_button = view.findViewById(R.id
+                .fragment_student_three_personInfo_update_button);
+        personInfo_update_textView_username.setText(t);
+        builder.setView(view);
+        final android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+
+        personInfo_update_imageView_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        personInfo_update_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                str_updateName = personInfo_update_editText_first.getText().toString().trim();
+                str_updatePhone = personInfo_update_editText_second.getText().toString().trim();
+                if ((str_updateName).equals("") && (str_updatePhone).equals("")) {
+                    Toast.makeText(getContext(), "信息输入不能为空", Toast.LENGTH_LONG).show();
+                } else {
+                    Teacher teacher = new Teacher();
+                    teacher.setUserName(t);
+                    teacher.setRealName(str_updateName);
+                    teacher.setPhoneNumber(str_updatePhone);
+                    Object[] params = {teacher.getRealName(), teacher.getPhoneNumber(),teacher.getUserName()};
+                    boolean flag1 = new TeacherDao(getContext()).updatePersonTeacher(teacher,
+                            params);
+                    if (flag1) {
+                        Toast.makeText(getContext(), "数据修改成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "数据修改失败", Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     //用户名密码修改

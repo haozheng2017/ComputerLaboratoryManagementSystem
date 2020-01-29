@@ -1,4 +1,4 @@
-package com.example.zh.clms.database.Student_Apply;
+package com.example.zh.clms.database.LitePal_Student_Apply;
 
 import org.litepal.crud.LitePalSupport;
 
@@ -11,6 +11,7 @@ public class Student_Apply extends LitePalSupport {
     private String endTime;
     private String user;
     private int tagg;
+
 
     public Student_Apply() {
 

@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/Cyan">
+        android:background="@color/DeepSkyBlue">
 
         <TextView
             android:id="@+id/activity_main_teacher_textView_title"

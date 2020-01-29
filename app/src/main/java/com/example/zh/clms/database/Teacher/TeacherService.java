@@ -13,11 +13,16 @@ public interface TeacherService {
     //删除数据
     public boolean deleteTeacher(Teacher teacher);
 
+    //修改个人信息
+    public boolean updatePersonTeacher(Teacher teacher, Object[] params);
     //修改数据
-    public boolean updateTeacher(Teacher teacher,Object[] params );
+    public boolean updateTeacher(Teacher teacher, Object[] params);
 
     //查询单个数据，返回map键值对
     public Map<String, String> viewTeacher(Teacher teacher);
+
+    //查询用户信息
+    public Map<String, String> singleInfoTeacher(Teacher teacher);
 
     //查询多个数据
     public List<Map<String, String>> listTeacherMaps();

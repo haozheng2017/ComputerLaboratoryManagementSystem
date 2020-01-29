@@ -13,11 +13,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.zh.clms.R;
 import com.example.zh.clms.adapter.ListViewAdapter_Teacher;
-import com.example.zh.clms.database.Student_Apply.Student_Apply;
+import com.example.zh.clms.database.LitePal_Student_Apply.Student_Apply;
+import com.example.zh.clms.utils.sp;
 
 import org.litepal.LitePal;
 
@@ -56,18 +56,48 @@ public class Fragment_Teacher_Two extends Fragment implements AdapterView.OnItem
         adapter = new ListViewAdapter_Teacher(getContext(), list_name, list_phone,
                 list_roomNumber, list_startTime, list_endTime, list_state);
         listView.setAdapter(adapter);
-        Toast.makeText(getContext(), "所有申请查找成功！", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "所有申请查找成功！", Toast.LENGTH_SHORT).show();
     }
 
     private void addDataIn_Listview() {
+        sp.getData(getContext());
+
         list_name.clear();
         list_phone.clear();
         list_roomNumber.clear();
         list_startTime.clear();
         list_endTime.clear();
         list_state.clear();
+//        Toast.makeText(getContext(), (sp.sharedPreferences.getString("user", "").equals("zh01"))
+//                + "", Toast.LENGTH_SHORT).show();
+        if (sp.sharedPreferences.getString("user", "").equals("zh01")) {
+            List<Student_Apply> student_applies = LitePal.where("roomNumber = ?", "D501").find
+                    (Student_Apply.class);
+            ForDataAdd(student_applies);
+        } else if (sp.sharedPreferences.getString("user", "").equals("zh02")) {
+            List<Student_Apply> student_applies = LitePal.where("roomNumber = ?", "D502").find
+                    (Student_Apply.class);
+            ForDataAdd(student_applies);
+        } else if (sp.sharedPreferences.getString("user", "").equals("zh03")) {
+            List<Student_Apply> student_applies = LitePal.where("roomNumber = ?", "D503").find
+                    (Student_Apply.class);
+            ForDataAdd(student_applies);
+        } else if (sp.sharedPreferences.getString("user", "").equals("zh04")) {
+            List<Student_Apply> student_applies = LitePal.where("roomNumber = ?", "D504").find
+                    (Student_Apply.class);
+            ForDataAdd(student_applies);
+        } else if (sp.sharedPreferences.getString("user", "").equals("zh05")) {
+            List<Student_Apply> student_applies = LitePal.where("roomNumber = ?", "D505").find
+                    (Student_Apply.class);
+            ForDataAdd(student_applies);
+        } else {
+            List<Student_Apply> student_applies = LitePal.findAll(Student_Apply.class);
+            ForDataAdd(student_applies);
+        }
 
-        List<Student_Apply> student_applies = LitePal.findAll(Student_Apply.class);
+    }
+
+    private void ForDataAdd(List<Student_Apply> student_applies) {
         for (Student_Apply student_apply : student_applies) {
             list_name.add("申请人姓名：" + student_apply.getName());
             list_phone.add("申请人电话：" + student_apply.getPhone());
@@ -77,7 +107,6 @@ public class Fragment_Teacher_Two extends Fragment implements AdapterView.OnItem
             list_state.add(student_apply.getTagg());
         }
     }
-
 
     //listView单击事件
     @Override
@@ -144,3 +173,4 @@ public class Fragment_Teacher_Two extends Fragment implements AdapterView.OnItem
     }
 
 }
+

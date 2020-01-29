@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.zh.clms.R;
 import com.example.zh.clms.adapter.ListViewAdapter;
+import com.example.zh.clms.adapter.ListViewAdapter_admin3;
 import com.example.zh.clms.database.Student.Student;
 import com.example.zh.clms.database.Student.StudentDao;
 import com.example.zh.clms.database.Student.StudentService;
@@ -26,10 +27,12 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
 
     ArrayList<String> list1 = new ArrayList<>();
     ArrayList<String> list2 = new ArrayList<>();
+    ArrayList<String> list3 = new ArrayList<>();
+    ArrayList<String> list4 = new ArrayList<>();
     private EditText editText1, editText2;
-    private Button button_insert, button_delete, button_update, button_select, button_select_All;
+    private Button  button_delete, button_update, button_select, button_select_All;
     private ListView listView;
-    private ListViewAdapter adapter;
+    private ListViewAdapter_admin3 adapter;
     private View view;
 
     @Nullable
@@ -47,7 +50,6 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
         editText1 = view.findViewById(R.id.fragmentAdmin3_editText1);
         editText2 = view.findViewById(R.id.fragmentAdmin3_editText2);
 
-        button_insert = view.findViewById(R.id.fragmentAdmin3_button_insert);
         button_delete = view.findViewById(R.id.fragmentAdmin3_button_delete);
         button_update = view.findViewById(R.id.fragmentAdmin3_button_update);
         button_select = view.findViewById(R.id.fragmentAdmin3_button_select);
@@ -55,8 +57,6 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
 
         listView = view.findViewById(R.id.fragmentAdmin3_listView);
 
-
-        button_insert.setOnClickListener(this);
         button_delete.setOnClickListener(this);
         button_update.setOnClickListener(this);
         button_select.setOnClickListener(this);
@@ -68,33 +68,33 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
         String str1 = editText1.getText().toString();
         String str2 = editText2.getText().toString();
         switch (v.getId()) {
-            case R.id.fragmentAdmin3_button_insert:
-                if ("".equals(str1)) {
-                    Toast.makeText(getContext(), "用户名的输入不可为空", Toast.LENGTH_SHORT).show();
-                } else if ("".equals(str2)) {
-                    Toast.makeText(getContext(), "密码的输入不可为空", Toast.LENGTH_SHORT).show();
-                } else {
-                    Student student = new Student();
-                    student.setUserName(str1);
-                    StudentService service = new StudentDao(getContext());
-                    Map<String, String> map = service.viewStudent(student);
-                    if (str1.trim().equals(map.get("userName"))) {
-                        Toast.makeText(getContext(), "该用户名已被使用", Toast.LENGTH_SHORT).show();
-                    } else {
-                        student.setUserName(str1);
-                        student.setPassword(str2);
-                        Object[] params = {student.getUserName(), student.getPassword()};
-                        boolean flag = new StudentDao(getContext()).addStudent(student);
-                        if (flag) {
-                            editText1.setText("");
-                            editText2.setText("");
-                            Toast.makeText(getContext(), "数据添加成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "数据添加失败", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-                break;
+//            case R.id.fragmentAdmin3_button_insert:
+//                if ("".equals(str1)) {
+//                    Toast.makeText(getContext(), "用户名的输入不可为空", Toast.LENGTH_SHORT).show();
+//                } else if ("".equals(str2)) {
+//                    Toast.makeText(getContext(), "密码的输入不可为空", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Student student = new Student();
+//                    student.setUserName(str1);
+//                    StudentService service = new StudentDao(getContext());
+//                    Map<String, String> map = service.viewStudent(student);
+//                    if (str1.trim().equals(map.get("userName"))) {
+//                        Toast.makeText(getContext(), "该用户名已被使用", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        student.setUserName(str1);
+//                        student.setPassword(str2);
+//                        Object[] params = {student.getUserName(), student.getPassword()};
+//                        boolean flag = new StudentDao(getContext()).addStudent(student);
+//                        if (flag) {
+//                            editText1.setText("");
+//                            editText2.setText("");
+//                            Toast.makeText(getContext(), "数据添加成功", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(getContext(), "数据添加失败", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }
+//                break;
 
             case R.id.fragmentAdmin3_button_update:
                 if ("".equals(str1)) {
@@ -154,6 +154,8 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                 } else {
                     list1.clear();
                     list2.clear();
+                    list3.clear();
+                    list4.clear();
                     Student student = new Student();
                     student.setUserName(str1);
                     StudentService service = new StudentDao(getContext());
@@ -161,7 +163,10 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                     if (str1.trim().equals(map.get("userName"))) {
                         list1.add(map.get("userName"));
                         list2.add(map.get("password"));
-                        adapter = new ListViewAdapter(getContext(), list1, list2);
+                        list3.add(map.get("realName"));
+                        list4.add(map.get("gradeClass"));
+                        adapter = new ListViewAdapter_admin3(getContext(), list1, list2, list3,
+                                list4);
                         listView.setAdapter(adapter);
                         map.clear();
                         editText1.setText("");
@@ -177,6 +182,8 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                 editText2.setText("");
                 list1.clear();
                 list2.clear();
+                list3.clear();
+                list4.clear();
                 StudentService service = new StudentDao(getContext());
                 List<Map<String, String>> list = service.listStudentMaps();
                 String key = null;//去重键
@@ -185,11 +192,13 @@ public class Fragment_Admin_Three extends Fragment implements View.OnClickListen
                         if (key != m.get("userName")) {
                             list1.add(m.get("userName"));
                             list2.add(m.get("password"));
+                            list3.add(m.get("realName"));
+                            list4.add(m.get("gradeClass"));
                             key = m.get("userName");
                         }
                     }
                 }
-                adapter = new ListViewAdapter(getContext(), list1, list2);
+                adapter = new ListViewAdapter_admin3(getContext(), list1, list2, list3, list4);
                 listView.setAdapter(adapter);
                 editText1.setText("");
                 editText2.setText("");

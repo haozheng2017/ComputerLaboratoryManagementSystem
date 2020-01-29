@@ -79,7 +79,7 @@
             android:layout_height="50dp"
             android:hint="@string/login_editText_user"
             android:inputType="text"
-            android:text="zh"
+            android:text=""
             android:textCursorDrawable="@drawable/edittext_bottom_line"
             android:textSize="25dp" />
     </LinearLayout>
@@ -103,35 +103,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/login_editText_password"
-            android:text="123"
             android:inputType="textPassword"
+            android:text=""
             android:textCursorDrawable="@drawable/edittext_bottom_line"
             android:textSize="25dp" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/login_linear3"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/login_linear2"
         android:layout_margin="20dp">
 
-        <CheckBox
-            android:id="@+id/login_checkbox2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/login_checkbox2" />
+
+        <TextView
+            android:id="@+id/login_textview_teaRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="教师注册"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/login_textview_ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:text="@string/login_textview_ip"
             android:textColor="@color/black" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/login_button"
@@ -162,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="用户注册"
+            android:text="学生注册"
             android:textColor="@color/black" />
 
         <TextView
