@@ -528,15 +528,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             setting.edit().putBoolean("FIRST", false).commit();
             product_account_admin();
 
-            product_account_teacher("zh", "123", "张零", "1008600", "D501");//D501
-            product_account_teacher("zh01", "123", "郑一", "1008611", "D501");//D501
-            product_account_teacher("zh02", "123", "李二", "1008622", "D502");//D502
-            product_account_teacher("zh03", "123", "童三", "1008633", "D503");//D503
-            product_account_teacher("zh04", "123", "赵四", "1008644", "D504");//D504
-            product_account_teacher("zh05", "123", "王五", "1008655", "D505");//D505
+            product_account_teacher("zh", "123", "张零", "11111111111", "D501");//D501
+            product_account_teacher("zh01", "123", "冯一", "22222222222", "D501");//D501
+            product_account_teacher("zh02", "123", "李二", "33333333333", "D502");//D502
+            product_account_teacher("zh03", "123", "童三", "44444444444", "D503");//D503
+            product_account_teacher("zh04", "123", "赵四", "55555555555", "D504");//D504
+            product_account_teacher("zh05", "123", "王五", "66666666666", "D505");//D505
 
-            product_account_student("zh", "123", "郑昊", "18级计科专升本1班");
-            product_account_student("stu", "123", "郑昊", "18级计科专升本1班");
+            product_account_student("zh", "123", "二虎", "18级计科专升本1班");
+            product_account_student("stu", "123", "张三", "18级计科2班");
             //Toast.makeText(LoginActivity.this, "第一次", Toast.LENGTH_LONG).show();
         } else {
             // Toast.makeText(LoginActivity.this, "不是第一次", Toast.LENGTH_LONG).show();

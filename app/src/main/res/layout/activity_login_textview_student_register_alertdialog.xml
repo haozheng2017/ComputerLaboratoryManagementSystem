@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="注册注意事项：&#x000A;1.班级填写形如：18级计科专升本1班。&#x000A;2.真实姓名和班级请认真填写，注册后将无法修改。" />
+        android:text="注册注意事项：&#x000A;1.班级填写形如：18级计科1班。&#x000A;2.真实姓名和班级请认真填写，注册后将无法修改。" />
 
     <TextView
         android:layout_width="match_parent"
