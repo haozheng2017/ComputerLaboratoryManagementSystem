@@ -41,7 +41,7 @@
         android:gravity="center"
         android:text="联系电话"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="13dp"
         android:textStyle="bold" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:gravity="center"
         android:text="管理的实验室"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="13dp"
         android:textStyle="bold" />
 
     <TextView

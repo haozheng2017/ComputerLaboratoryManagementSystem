@@ -15,7 +15,7 @@
         android:paddingTop="5dp"
         android:text="@string/login_text1"
         android:textColor="@color/white"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/login_text2"
