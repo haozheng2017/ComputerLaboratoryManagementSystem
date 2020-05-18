@@ -16,9 +16,6 @@ public class GuideActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-//        System.out.println("Happy 1024 Programmer's Day" +
-//                "好兄弟们要给自己加个鸡腿哦");
-
         //隐藏ActionBar
         getSupportActionBar().hide();
         setContentView(R.layout.activity_guide);
